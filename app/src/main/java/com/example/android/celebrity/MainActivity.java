@@ -1,11 +1,11 @@
 package com.example.android.celebrity;
 
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -36,8 +36,9 @@ public class MainActivity extends AppCompatActivity {
                 return result;
             }
             catch (Exception e){
-
+                e.printStackTrace();
             }
+            return null;
         }
     }
     @Override
@@ -54,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+
+        Log.i("Downloaded content",result);
     }
 
     public void celebchosen(View view) {
