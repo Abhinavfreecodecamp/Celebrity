@@ -6,7 +6,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,6 +30,10 @@ public class MainActivity extends AppCompatActivity {
     int  chosenceleb =0;
     ImageView imageView;
     Bitmap celebimage;
+    int correctans=0;
+    String[] answer = new String[4];
+    Button btn0,btn1,btn2,btn3;
+    Random random= new Random();
     public class DownloadImage extends AsyncTask<String,Void,Bitmap>{
 
         @Override
@@ -81,6 +87,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         imageView = (ImageView)findViewById(R.id.imageView);
+        btn0 = (Button)findViewById(R.id.button0);
+        btn1 = (Button)findViewById(R.id.button1);
+        btn2 = (Button)findViewById(R.id.button2);
+        btn3 = (Button)findViewById(R.id.button3);
         DownloadTask task = new DownloadTask();
         String result= "";
         try {
@@ -101,8 +111,11 @@ public class MainActivity extends AppCompatActivity {
         while (matcher.find()){
             celebesnames.add(matcher.group(1));
         }
+        createquesstion();
+        }
 
-        Random random= new Random();
+    public void createquesstion(){
+        correctans = random.nextInt(4);
         chosenceleb = random.nextInt(celebesimages.size());
 
         DownloadImage downloadImage = new DownloadImage();
@@ -114,8 +127,33 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         imageView.setImageBitmap(celebimage);
+        int incorrectans;
+        for (int i=0;i<4;i++){
+            if (i==correctans)
+                answer[i] = celebesnames.get(chosenceleb);
+            else
+            {
+                incorrectans = random.nextInt(celebesimages.size());
+                while (incorrectans==correctans){
+                    incorrectans = random.nextInt(celebesimages.size());
+                }
+                answer[i] = celebesnames.get(incorrectans);
+            }
+        }
+        btn0.setText(answer[0]);
+        btn1.setText(answer[1]);
+        btn2.setText(answer[2]);
+        btn3.setText(answer[3]);
     }
 
     public void celebchosen(View view) {
+       if( view.getTag().toString().equals(Integer.toString((correctans)))){
+           Toast.makeText(getApplicationContext(),"Correct answer",Toast.LENGTH_LONG).show();
+           createquesstion();
+        }else{
+           Toast.makeText(getApplicationContext(),"Incorrect answer it is "+celebesnames.get(chosenceleb),Toast.LENGTH_LONG).show();
+           createquesstion();
+       }
+
     }
 }

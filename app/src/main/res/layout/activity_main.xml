@@ -22,13 +22,13 @@
              />
 
         <Button
-            android:id="@+id/button"
-            android:layout_column="0"
-            android:layout_row="1"
-            android:tag="0"
-            android:onClick="celebchosen"
+            android:id="@+id/button0"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_row="1"
+            android:onClick="celebchosen"
+            android:tag="0"
             android:text="Button" />
         <Button
             android:id="@+id/button1"
